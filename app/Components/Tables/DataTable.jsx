@@ -1,15 +1,18 @@
 import React from "react";
 
-const DataTable = ({ data }) => {
+const DataTable = ({ data, filteredData, limitPerPage, handlePerPageData }) => {
   return (
-    <div className="w-full border-2 border-gray-200 p-4 rounded-lg bg-white ">
+    <div className="w-full border-2 border-gray-200 p-2 rounded-lg bg-white">
       <h2 className=" font-bold mb-2 text-xl text-gray-500">
-        Temperature Stats and data
+        Temperature Table
       </h2>
-      <div className="rounded-md shadow-md overflow-hidden bg-white overflow-x-auto">
+      <div
+        className="rounded-md shadow-md overflow-hidden bg-white overflow-x-auto max-h-96 overflow-y-auto [&::-webkit-scrollbar]:[width:5px] [&::-webkit-scrollbar]:[height:5px] [&::-webkit-scrollbar-thumb]:rounded-lg
+            [&::-webkit-scrollbar-thumb]:bg-sky-400"
+      >
         <table className="min-w-[700px] w-full text-black rounded-md text-sm">
-          <thead className="bg-gray-500 text-white">
-            <tr className="h-10">
+          <thead className="bg-sky-500 text-white h-16 sticky top-0 z-50">
+            <tr className="h-10 ">
               <th className="p-2 text-center rounded-tl-md max-w-[50px] ">
                 Sr.No.
               </th>
@@ -24,11 +27,11 @@ const DataTable = ({ data }) => {
               </th>
             </tr>
           </thead>
-          <tbody>
-            {data && data?.length > 0 ? (
-              data.map((row, index) => (
-                <tr key={index} className="border-t border-b">
-                  <td className="text-center p-2">{index + 1}</td>
+          <tbody className="z-0">
+            {filteredData && filteredData?.length > 0 ? (
+              filteredData.map((row, index) => (
+                <tr key={index} className="border-t border-b odd:bg-gray-100 min-h-10">
+                  <td className="text-center py-3 font-bold">{index + 1}</td>
                   <td className="p-2">{row.time}</td>
                   <td className="text-center p-2">
                     {row?.temperature_2m_min || "null"}
@@ -52,7 +55,7 @@ const DataTable = ({ data }) => {
               ))
             ) : (
               <tr>
-                <td className=" w-full-[100%] flex justify-center items-center h-32 text-gray-500">
+                <td colSpan="8" className="text-center p-2 h-32 text-gray-500">
                   No data available
                 </td>
               </tr>
@@ -60,16 +63,22 @@ const DataTable = ({ data }) => {
           </tbody>
         </table>
       </div>
-      <p className="text-xs text-gray-400 mt-2">{`Showing ${data ? 1 : 0} to ${
-        data ? data.length : 0
-      } of ${data ? data.length : 0} entries`}</p>
+      <p className="text-xs text-gray-400 mt-2">{`Showing ${
+        filteredData ? 1 : 0
+      } to ${filteredData ? filteredData.length : 0} of ${
+        filteredData ? filteredData.length : 0
+      } entries`}</p>
       <div className="flex justify-between mt-4 w-full">
         <div>
           <select
             name="itemsPerPage"
             aria-placeholder="Select Items per page"
             id="itemsPerPage"
+            value={limitPerPage}
             className="border-2 border-gray-200 rounded-md p-2 text-black outline-none focus-visible:outline-2 focus-within:-outline-offset-2 focus-visible:outline-sky-400"
+            onChange={(e) => {
+              handlePerPageData(e.target.value, data);
+            }}
           >
             <option value="10">10</option>
             <option value="20">20</option>

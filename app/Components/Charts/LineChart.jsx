@@ -137,7 +137,7 @@ const LineChart = ({ data, loading }) => {
     plugins: {
       legend: {
         noData: true,
-        align: "end",
+        align: "center",
         onHover: (event) => {
           event.chart.canvas.style.cursor = "pointer";
         },
@@ -162,11 +162,31 @@ const LineChart = ({ data, loading }) => {
     },
     scales: {
       x: {
+        title: {
+          display: true,
+          text: "Date",
+          font: {
+            size: 14,
+            weight: "bold",
+            lineHeight: 1.2,
+          },
+          padding: { top: 10, left: 0, right: 0, bottom: 0 },
+        },
         ticks: {
           color: "#666",
         },
       },
       y: {
+        title: {
+          display: true,
+          text: "Temperature",
+          font: {
+            size: 14,
+            weight: "bold",
+            lineHeight: 1.2,
+          },
+          padding: { top: 10, left: 0, right: 0, bottom: 0 },
+        },
         ticks: {
           color: "#666",
         },
@@ -175,7 +195,7 @@ const LineChart = ({ data, loading }) => {
   };
   return (
     <div
-      className={`w-full flex justify-center items-center h-96 border-2 border-gray-200 p-4 rounded-lg bg-white `}
+      className={`w-full flex justify-center items-center h-96 border-2 border-gray-200 p-2 rounded-lg bg-white `}
     >
       <Line options={mainOptions} data={mainData} />
     </div>

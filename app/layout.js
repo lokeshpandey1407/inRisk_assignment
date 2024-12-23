@@ -14,6 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
+  icons: {
+    icon: "./logo.svg",
+  },
   title: "InRisk Assignment",
   description: "InRisk Assignment",
 };
@@ -22,7 +25,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black `}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-200 `}
       >
         <Navbar />
         <Toaster />
