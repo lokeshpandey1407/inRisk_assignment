@@ -23,6 +23,9 @@ export default function Dashboard() {
     endDate: "",
   });
 
+  const [defaultLatitude, setDefaultLatitude] = useState("");
+  const [defaultLongitude, setDefaultLongitude] = useState("");
+
   function formatDataForTable(data) {
     if (!data) return;
     let tableArray = [];
@@ -37,6 +40,20 @@ export default function Dashboard() {
     }
     setWeatherTableData(tableArray);
     return tableArray;
+  }
+
+  async function getUsersLocation() {
+    navigator.geolocation.getCurrentPosition(
+      (success) => {
+        setDefaultLatitude(success?.coords?.latitude)
+        setDefaultLongitude(success?.coords?.longitude)
+      },
+      (err) => {
+        console.log(err);
+        toast.error(err);
+      }
+    );
+    console.log(location);
   }
 
   // handle per page data limit
@@ -160,7 +177,7 @@ export default function Dashboard() {
             type="text"
             id="latitude"
             name="latitude"
-            defaultValue={69.9}
+            defaultValue={defaultLatitude}
             placeholder="Enter latitude"
             onChange={() => setError((prev) => ({ ...prev, latitude: "" }))}
             required
@@ -177,7 +194,7 @@ export default function Dashboard() {
             type="text"
             id="longitude"
             name="longitude"
-            defaultValue={34.8}
+            defaultValue={defaultLongitude}
             placeholder="Enter longitude"
             required
           />
@@ -194,7 +211,7 @@ export default function Dashboard() {
             id="startDate"
             name="startDate"
             defaultValue={
-              new Date(new Date().setDate(new Date().getDate() - 21))
+              new Date(new Date().setDate(new Date().getDate() - 7))
                 .toISOString()
                 .split("T")[0]
             }
@@ -225,7 +242,14 @@ export default function Dashboard() {
           disabled={isLoading}
           className={`rounded-md bg-sky-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400 w-min-[100px] w-full sm:w-auto disabled:bg-slate-400`}
         >
-          {isLoading ? "Loading..." : "Get Weather Data"}
+          {isLoading ? "Fetching..." : "Fetch Data"}
+        </button>
+        <button
+          type="button"
+          onClick={getUsersLocation}
+          className={`rounded-md bg-green-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600 w-min-[100px] w-full sm:w-auto disabled:bg-slate-400`}
+        >
+          Get your coordinates ?
         </button>
       </form>
 
