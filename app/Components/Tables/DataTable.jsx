@@ -123,6 +123,14 @@ const DataTable = ({
               key={page}
               className={`relative inline-flex items-center px-2 py-2 text-black ring-1 ring-inset ring-gray-300 hover:bg-sky-500 focus:z-20 focus:outline-offset-0 ${
                 currentPage === page ? "bg-sky-300" : ""
+              } ${
+                currentPage === page - 1 ||
+                currentPage === page + 1 ||
+                currentPage === page ||
+                pages[0] === page ||
+                pages[pages?.length - 1] === page
+                  ? "block"
+                  : "hidden"
               }`}
               onClick={() => setCurrentPage(page)}
             >
