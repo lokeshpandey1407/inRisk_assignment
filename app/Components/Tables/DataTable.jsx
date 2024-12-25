@@ -15,7 +15,7 @@ const DataTable = ({
         Temperature Table
       </h2>
       <div
-        className="rounded-md shadow-md overflow-hidden bg-white overflow-x-auto max-h-96 overflow-y-auto [&::-webkit-scrollbar]:[width:5px] [&::-webkit-scrollbar]:[height:5px] [&::-webkit-scrollbar-thumb]:rounded-lg
+        className="rounded-md shadow-md overflow-hidden bg-white overflow-x-auto max-h-96 min-h-96 overflow-y-auto [&::-webkit-scrollbar]:[width:5px] [&::-webkit-scrollbar]:[height:5px] [&::-webkit-scrollbar-thumb]:rounded-lg
             [&::-webkit-scrollbar-thumb]:bg-sky-400"
       >
         <table className="min-w-[700px] w-full text-black rounded-md text-sm">
@@ -66,7 +66,7 @@ const DataTable = ({
               ))
             ) : (
               <tr>
-                <td colSpan="8" className="text-center p-2 h-32 text-gray-500">
+                <td colSpan="8" className="text-center p-2 h-60 text-gray-500">
                   No data available
                 </td>
               </tr>
@@ -75,9 +75,7 @@ const DataTable = ({
         </table>
       </div>
       <p className="text-xs text-gray-400 mt-2">{`Showing ${
-        filteredData ? 1 : 0
-      } to ${filteredData ? filteredData.length : 0} of ${
-        filteredData ? filteredData.length : 0
+        filteredData?.length || 0
       } entries`}</p>
       <div className="flex justify-between mt-4 w-full">
         <div>
@@ -89,6 +87,7 @@ const DataTable = ({
             className="border-2 border-gray-200 rounded-md p-2 text-black outline-none focus-visible:outline-2 focus-within:-outline-offset-2 focus-visible:outline-sky-400"
             onChange={(e) => {
               setLimtPerPage(e.target.value);
+              setCurrentPage(1);
             }}
           >
             <option value="10">10</option>

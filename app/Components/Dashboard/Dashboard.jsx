@@ -42,8 +42,8 @@ export default function Dashboard() {
   // handle per page data limit
   function handlePerPageData(data) {
     if (!data) return;
-    const skip = (currentPage - 1) * limitPerPage;
-    let filteredTableData = data.slice(skip, skip + limitPerPage);
+    const skip = (currentPage - 1) * Number(limitPerPage);
+    let filteredTableData = data.slice(skip, skip + Number(limitPerPage));
     return filteredTableData;
   }
 
@@ -114,7 +114,7 @@ export default function Dashboard() {
     setWeatherData(res?.daily);
     const tableData = formatDataForTable(res?.daily);
     const filteredData = handlePerPageData(tableData);
-    const pages = Math.ceil(tableData.length / limitPerPage);
+    const pages = Math.ceil(tableData.length / Number(limitPerPage));
     const totalPages = setNumberOfPages(pages);
     setPages(totalPages);
     setFilteredTableData(filteredData);
@@ -133,7 +133,9 @@ export default function Dashboard() {
     if (weatherTableData) {
       const filteredData = handlePerPageData(weatherTableData);
       setFilteredTableData(filteredData);
-      const numOfPages = Math.ceil(weatherTableData.length / limitPerPage);
+      const numOfPages = Math.ceil(
+        weatherTableData.length / Number(limitPerPage)
+      );
       const pages = setNumberOfPages(numOfPages);
       setPages(pages);
     }

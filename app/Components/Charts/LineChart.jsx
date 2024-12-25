@@ -116,7 +116,6 @@ const LineChart = ({ data, loading }) => {
         data,
         chartArea: { left, top, right, bottom },
       } = chart;
-      console.log(data.datasets);
       ctx.fillStyle = "#666";
       ctx, fillRect(left, top, right, bottom);
       ctx.textAlign = "center";
