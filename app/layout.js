@@ -25,7 +25,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-200 `}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-200 [&::-webkit-scrollbar]:[width:5px] [&::-webkit-scrollbar-thumb]:rounded-lg
+            [&::-webkit-scrollbar-thumb]:bg-sky-400 `}
       >
         <Navbar />
         <Toaster />

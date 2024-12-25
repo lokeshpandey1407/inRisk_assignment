@@ -1,6 +1,14 @@
 import React from "react";
 
-const DataTable = ({ data, filteredData, limitPerPage, handlePerPageData }) => {
+const DataTable = ({
+  data,
+  filteredData,
+  limitPerPage,
+  pages,
+  setLimtPerPage,
+  currentPage,
+  setCurrentPage,
+}) => {
   return (
     <div className="w-full border-2 border-gray-200 p-2 rounded-lg bg-white">
       <h2 className=" font-bold mb-2 text-xl text-gray-500">
@@ -30,8 +38,11 @@ const DataTable = ({ data, filteredData, limitPerPage, handlePerPageData }) => {
           <tbody className="z-0">
             {filteredData && filteredData?.length > 0 ? (
               filteredData.map((row, index) => (
-                <tr key={index} className="border-t border-b odd:bg-gray-100 min-h-10">
-                  <td className="text-center py-3 font-bold">{index + 1}</td>
+                <tr
+                  key={index}
+                  className="border-t border-b odd:bg-gray-100 min-h-10"
+                >
+                  <td className="text-center py-3 font-bold">{row._id}</td>
                   <td className="p-2">{row.time}</td>
                   <td className="text-center p-2">
                     {row?.temperature_2m_min || "null"}
@@ -77,7 +88,7 @@ const DataTable = ({ data, filteredData, limitPerPage, handlePerPageData }) => {
             value={limitPerPage}
             className="border-2 border-gray-200 rounded-md p-2 text-black outline-none focus-visible:outline-2 focus-within:-outline-offset-2 focus-visible:outline-sky-400"
             onChange={(e) => {
-              handlePerPageData(e.target.value, data);
+              setLimtPerPage(e.target.value);
             }}
           >
             <option value="10">10</option>
@@ -85,64 +96,53 @@ const DataTable = ({ data, filteredData, limitPerPage, handlePerPageData }) => {
             <option value="50">50</option>
           </select>
         </div>
+        {/* pagination container */}
         <nav
           aria-label="Pagination"
           className="isolate inline-flex -space-x-px rounded-md shadow-sm"
         >
-          <a
-            href="#"
+          <button
+            title="Prev"
             className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
           >
-            <span className="sr-only">Previous</span>
-            {/* <ChevronLeftIcon aria-hidden="true" className="size-5" /> */}
-          </a>
-          <a
-            href="#"
-            aria-current="page"
-            className="relative z-10 inline-flex items-center bg-sky-400 px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400"
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+            >
+              <path
+                fill="currentColor"
+                fillRule="evenodd"
+                d="m5.293 8l3.854 3.854l.707-.707L6.707 8l3.147-3.146l-.707-.708z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </button>
+          {pages.map((page) => (
+            <button
+              key={page}
+              className={`relative inline-flex items-center px-2 py-2 text-black ring-1 ring-inset ring-gray-300 hover:bg-sky-500 focus:z-20 focus:outline-offset-0 ${
+                currentPage === page ? "bg-sky-300" : ""
+              }`}
+              onClick={() => setCurrentPage(page)}
+            >
+              {page}
+            </button>
+          ))}
+          <button
+            title="Next"
+            className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0`}
           >
-            1
-          </a>
-          <a
-            href="#"
-            className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-          >
-            2
-          </a>
-          <a
-            href="#"
-            className="relative hidden items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 md:inline-flex"
-          >
-            3
-          </a>
-          <span className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0">
-            ...
-          </span>
-          <a
-            href="#"
-            className="relative hidden items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 md:inline-flex"
-          >
-            8
-          </a>
-          <a
-            href="#"
-            className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-          >
-            9
-          </a>
-          <a
-            href="#"
-            className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-          >
-            10
-          </a>
-          <a
-            href="#"
-            className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-          >
-            <span className="sr-only">Next</span>
-            {/* <ChevronRightIcon aria-hidden="true" className="size-5" /> */}
-          </a>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+            >
+              <path fill="none" stroke="currentColor" d="M6 4.5L9.5 8L6 11.5" />
+            </svg>
+          </button>
         </nav>
       </div>
     </div>

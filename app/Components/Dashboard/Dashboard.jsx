@@ -11,6 +11,8 @@ const baseStyle =
 export default function Dashboard() {
   const [weatherData, setWeatherData] = useState(null);
   const [weatherTableData, setWeatherTableData] = useState(null);
+  const [pages, setPages] = useState([1]);
+  const [currentPage, setCurrentPage] = useState(1);
   const [filteredTableData, setFilteredTableData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [limitPerPage, setLimitPerPage] = useState(10);
@@ -30,18 +32,18 @@ export default function Dashboard() {
       for (let j = 0; j < keys.length; j++) {
         newObj[keys[j]] = data[keys[j]][i];
       }
+      newObj._id = i + 1;
       tableArray.push(newObj);
     }
     setWeatherTableData(tableArray);
-    const filteredData = handlePerPageData(limitPerPage, tableArray);
-    return filteredData;
+    return tableArray;
   }
 
   // handle per page data limit
-  function handlePerPageData(limitPerPage, data) {
+  function handlePerPageData(data) {
     if (!data) return;
-    setLimitPerPage(limitPerPage);
-    let filteredTableData = data.slice(0, limitPerPage);
+    const skip = (currentPage - 1) * limitPerPage;
+    let filteredTableData = data.slice(skip, skip + limitPerPage);
     return filteredTableData;
   }
 
@@ -111,20 +113,37 @@ export default function Dashboard() {
     }
     setWeatherData(res?.daily);
     const tableData = formatDataForTable(res?.daily);
-    setFilteredTableData(tableData);
+    const filteredData = handlePerPageData(tableData);
+    const pages = Math.ceil(tableData.length / limitPerPage);
+    const totalPages = setNumberOfPages(pages);
+    setPages(totalPages);
+    setFilteredTableData(filteredData);
     setIsLoading(false);
+  }
+
+  function setNumberOfPages(pages) {
+    const numOfPages = [];
+    for (let i = 1; i <= pages; i++) {
+      numOfPages.push(i);
+    }
+    return numOfPages;
   }
 
   useEffect(() => {
     if (weatherTableData) {
-      const filteredData = handlePerPageData(limitPerPage, weatherTableData);
+      const filteredData = handlePerPageData(weatherTableData);
       setFilteredTableData(filteredData);
+      const numOfPages = Math.ceil(weatherTableData.length / limitPerPage);
+      const pages = setNumberOfPages(numOfPages);
+      setPages(pages);
     }
-  }, [limitPerPage]);
+  }, [limitPerPage, currentPage]);
 
   return (
     <main className="flex w-full sm:w-5/6 flex-col h-full sm:mx-auto mb-10 px-5 py-5 bg-white gap-4 mt-28 rounded-md">
-      <p className="text-center text-2xl font-bold text-sky-500">Weather Dashboard</p>
+      <p className="text-center text-2xl font-bold text-sky-500">
+        Weather Dashboard
+      </p>
       <form
         className="flex flex-wrap content-center items-end gap-1 sm:gap-2 border-2 border-gray-200 p-2 rounded-lg bg-white w-full"
         onSubmit={handleGetData}
@@ -139,6 +158,7 @@ export default function Dashboard() {
             type="text"
             id="latitude"
             name="latitude"
+            defaultValue={69.9}
             placeholder="Enter latitude"
             onChange={() => setError((prev) => ({ ...prev, latitude: "" }))}
             required
@@ -155,6 +175,7 @@ export default function Dashboard() {
             type="text"
             id="longitude"
             name="longitude"
+            defaultValue={34.8}
             placeholder="Enter longitude"
             required
           />
@@ -171,7 +192,7 @@ export default function Dashboard() {
             id="startDate"
             name="startDate"
             defaultValue={
-              new Date(new Date().setDate(new Date().getDate() - 7))
+              new Date(new Date().setDate(new Date().getDate() - 21))
                 .toISOString()
                 .split("T")[0]
             }
@@ -212,8 +233,10 @@ export default function Dashboard() {
         filteredData={filteredTableData}
         loading={isLoading}
         limitPerPage={limitPerPage}
+        pages={pages}
         setLimtPerPage={setLimitPerPage}
-        handlePerPageData={handlePerPageData}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
       />
     </main>
   );
