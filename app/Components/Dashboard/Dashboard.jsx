@@ -45,15 +45,13 @@ export default function Dashboard() {
   async function getUsersLocation() {
     navigator.geolocation.getCurrentPosition(
       (success) => {
-        setDefaultLatitude(success?.coords?.latitude)
-        setDefaultLongitude(success?.coords?.longitude)
+        setDefaultLatitude(success?.coords?.latitude);
+        setDefaultLongitude(success?.coords?.longitude);
       },
       (err) => {
-        console.log(err);
-        toast.error(err);
+        toast.error(err?.message);
       }
     );
-    console.log(location);
   }
 
   // handle per page data limit
