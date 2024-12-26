@@ -9,6 +9,25 @@ const DataTable = ({
   currentPage,
   setCurrentPage,
 }) => {
+  function handleNext() {
+    setCurrentPage((prev) => {
+      if (prev === pages.length || filteredData === null) {
+        return prev;
+      } else {
+        return prev + 1;
+      }
+    });
+  }
+
+  function handlePrev() {
+    setCurrentPage((prev) => {
+      if (prev === 1 || filteredData === null) {
+        return prev;
+      } else {
+        return prev - 1;
+      }
+    });
+  }
   return (
     <div className="w-full border-2 border-gray-200 p-2 rounded-lg bg-white">
       <h2 className=" font-bold mb-2 text-xl text-gray-500">
@@ -103,6 +122,7 @@ const DataTable = ({
           <button
             title="Prev"
             className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+            onClick={handlePrev}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -140,6 +160,7 @@ const DataTable = ({
           <button
             title="Next"
             className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0`}
+            onClick={handleNext}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

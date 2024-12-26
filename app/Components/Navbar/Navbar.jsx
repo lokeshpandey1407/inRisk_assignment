@@ -24,14 +24,14 @@ const Navbar = () => {
         alt="Logo"
         className="h-25 w-40"
       />
-      <div className="flex flex-col">
-        <p className="text-black text-sm">
+      <div className="flex flex-col text-black">
+        <p className=" text-sm">
           {currentTime &&
             new Date(currentTime).toLocaleDateString("en-Us", {
               dateStyle: "medium",
             })}
         </p>
-        <p className="text-black text-sm">
+        <p className=" text-sm">
           {currentTime &&
             new Date(currentTime).toLocaleTimeString("en-Us", {
               timeStyle: "medium",
