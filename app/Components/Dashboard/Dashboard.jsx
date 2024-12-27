@@ -257,7 +257,7 @@ export default function Dashboard() {
           className={`rounded-md bg-green-400 h-9 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600 w-min-[100px] w-full sm:w-44 disabled:bg-slate-400`}
         >
           {isCurrentLocationLoading ? (
-            <Loader size={8} />
+            <Loader size={4} />
           ) : (
             "Get your coordinates"
           )}
