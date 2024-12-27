@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## About the Project
 
-## Getting Started
+## Overview
 
-First, run the development server:
+This project is a web application that allows users to input latitude and longitude coordinates to retrieve and visualize data in both chart and table formats. The application also features pagination for the table data and includes a functionality to fetch the user's current location to display relevant data based on the date range.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Data Visualization**: Display data in chart format for better insights.
+- **Tabular Data**: Present data in a structured table format with pagination.
+- **Current Location**: Automatically fetch and display data based on the user's current geographical location.
+- **Responsive Design**: Built with Tailwind CSS for a modern and responsive user interface.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Technologies Used
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Next.js**: A React framework for server-side rendering and static site generation.
+- **Tailwind CSS**: A utility-first CSS framework for styling.
+- **Chart.js**: A library for creating dynamic charts.
 
-## Learn More
+## Installation
 
-To learn more about Next.js, take a look at the following resources:
+To get started with the project, follow these steps:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Clone the repository:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+   ```bash
+   git clone https://github.com/lokeshpandey1407/inRisk_assignment.git
+   ```
 
-## Deploy on Vercel
+2. Install the dependencies:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+    ```bash
+    npm install --legacy-peer-deps
+    ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Then, run the development server:
+
+    ```bash
+    npm run dev
+    # or
+    yarn dev
+    ```
+
+## Live Demo
+
+Check out the live demo of this project [here](https://in-risk-assignment.vercel.app/).
