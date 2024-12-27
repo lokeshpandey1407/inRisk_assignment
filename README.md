@@ -33,7 +33,7 @@ To get started with the project, follow these steps:
     npm install --legacy-peer-deps
     ```
 
-Then, run the development server:
+3. Run the development server:
 
     ```bash
     npm run dev
