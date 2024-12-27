@@ -9,6 +9,11 @@ const DataTable = ({
   currentPage,
   setCurrentPage,
 }) => {
+  function handleFirst() {
+    if (currentPage !== 1) {
+      setCurrentPage(1);
+    }
+  }
   function handleNext() {
     setCurrentPage((prev) => {
       if (prev === pages.length || filteredData === null) {
@@ -17,6 +22,12 @@ const DataTable = ({
         return prev + 1;
       }
     });
+  }
+
+  function handleLast() {
+    if (currentPage !== pages.length) {
+      setCurrentPage(pages.length);
+    }
   }
 
   function handlePrev() {
@@ -93,9 +104,14 @@ const DataTable = ({
           </tbody>
         </table>
       </div>
-      <p className="text-xs text-gray-400 mt-2">{`Showing ${
-        filteredData?.length || 0
-      } entries`}</p>
+      <div className="flex flex-row justify-between">
+        <p className="text-xs text-gray-400 mt-2">{`Showing ${
+          filteredData?.length || 0
+        } entries`}</p>
+        <p className="text-xs text-gray-400 mt-2">{`Total ${
+          filteredData == null ? 0 : pages.length
+        } pages`}</p>
+      </div>
       <div className="flex justify-between mt-4 w-full">
         <div>
           <select
@@ -115,19 +131,33 @@ const DataTable = ({
           </select>
         </div>
         {/* pagination container */}
-        <nav
-          aria-label="Pagination"
-          className="isolate inline-flex -space-x-px rounded-md shadow-sm"
-        >
+        <nav aria-label="Pagination" className="isolate inline-flex gap-2">
+          <button
+            title="First"
+            className="relative h-8 w-8 flex items-center text-black  ring-gray-300 hover:bg-gray-50 focus:outline-offset-0 rounded-full justify-center"
+            onClick={handleFirst}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+            >
+              <path
+                fill="currentColor"
+                d="M7 18q-.425 0-.712-.288T6 17V7q0-.425.288-.712T7 6t.713.288T8 7v10q0 .425-.288.713T7 18m6.8-6l3.9 3.9q.275.275.275.7t-.275.7t-.7.275t-.7-.275l-4.6-4.6q-.15-.15-.212-.325T11.425 12t.063-.375t.212-.325l4.6-4.6q.275-.275.7-.275t.7.275t.275.7t-.275.7z"
+              />
+            </svg>
+          </button>
           <button
             title="Prev"
-            className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+            className="relative h-8 w-8 flex items-center text-black  ring-gray-300 hover:bg-gray-50 focus:outline-offset-0 rounded-full justify-center"
             onClick={handlePrev}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
+              width="26"
+              height="26"
               viewBox="0 0 16 16"
             >
               <path
@@ -138,37 +168,43 @@ const DataTable = ({
               />
             </svg>
           </button>
-          {pages.map((page) => (
-            <button
-              key={page}
-              className={`relative inline-flex items-center px-2 py-2 text-black ring-1 ring-inset ring-gray-300 hover:bg-sky-500 focus:z-20 focus:outline-offset-0 ${
-                currentPage === page ? "bg-sky-300" : ""
-              } ${
-                currentPage === page - 1 ||
-                currentPage === page + 1 ||
-                currentPage === page ||
-                pages[0] === page ||
-                pages[pages?.length - 1] === page
-                  ? "block"
-                  : "hidden"
-              }`}
-              onClick={() => setCurrentPage(page)}
-            >
-              {page}
-            </button>
-          ))}
+
+          <p
+            className={`relative h-8 w-8 flex items-center rounded-full text-black focus:z-20 focus:outline-offset-0 justify-center bg-sky-300 ${
+              filteredData === null ? "hidden" : "block"
+            }`}
+          >
+            {filteredData === null ? 0 : currentPage}
+          </p>
           <button
             title="Next"
-            className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0`}
+            className={`relative h-8 w-8 flex items-center rounded-full text-black hover:bg-gray-50 focus:z-20 focus:outline-offset-0 justify-center`}
             onClick={handleNext}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
+              width="26"
+              height="26"
               viewBox="0 0 16 16"
             >
               <path fill="none" stroke="currentColor" d="M6 4.5L9.5 8L6 11.5" />
+            </svg>
+          </button>
+          <button
+            title="Last"
+            className={`relative h-8 w-8 flex items-center rounded-full text-black hover:bg-gray-50 focus:z-20 focus:outline-offset-0 justify-center`}
+            onClick={handleLast}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+            >
+              <path
+                fill="currentColor"
+                d="M10.2 12L6.3 8.1q-.275-.275-.275-.7t.275-.7t.7-.275t.7.275l4.6 4.6q.15.15.213.325t.062.375t-.062.375t-.213.325l-4.6 4.6q-.275.275-.7.275t-.7-.275t-.275-.7t.275-.7zM17 6q.425 0 .713.288T18 7v10q0 .425-.288.713T17 18t-.712-.288T16 17V7q0-.425.288-.712T17 6"
+              />
             </svg>
           </button>
         </nav>
