@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import LineChart from "../Charts/LineChart";
 import DataTable from "../Tables/DataTable";
 import toast from "react-hot-toast";
+import Loader from "../loader/Loader";
 
 const baseStyle =
   "p-3 rounded-md text-black outline-none outline outline-1 -outline-offset-1 outline-gray-300 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-sky-600 w-full xs:w-56 text-sm";
@@ -15,6 +16,7 @@ export default function Dashboard() {
   const [currentPage, setCurrentPage] = useState(1);
   const [filteredTableData, setFilteredTableData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isCurrentLocationLoading, setCurrentLocationLoading] = useState(false);
   const [limitPerPage, setLimitPerPage] = useState(10);
   const [error, setError] = useState({
     latitude: "",
@@ -43,13 +45,16 @@ export default function Dashboard() {
   }
 
   async function getUsersLocation() {
+    setCurrentLocationLoading(true);
     navigator.geolocation.getCurrentPosition(
       (success) => {
         setDefaultLatitude(success?.coords?.latitude);
         setDefaultLongitude(success?.coords?.longitude);
+        setCurrentLocationLoading(false);
       },
       (err) => {
         toast.error(err?.message);
+        setCurrentLocationLoading(false);
       }
     );
   }
@@ -73,13 +78,17 @@ export default function Dashboard() {
 
     if (!latitude || isNaN(latitude)) {
       newError.latitude = "Invalid latitude";
-      toast.error("Latitude must be a number between -90 and 90");
+      toast.error(
+        "Invalue Value. Latitude must be a number between -90 and 90"
+      );
       hasError = true;
     }
 
     if (!longitude || isNaN(longitude)) {
       newError.longitude = "Invalid longitude";
-      toast.error("Longitude must be a number between -90 and 90");
+      toast.error(
+        "Invalid Value. Longitude must be a number between -90 and 90"
+      );
       hasError = true;
     }
 
@@ -177,7 +186,6 @@ export default function Dashboard() {
             name="latitude"
             defaultValue={defaultLatitude}
             placeholder="Enter latitude"
-            onChange={() => setError((prev) => ({ ...prev, latitude: "" }))}
             required
           />
         </div>
@@ -237,17 +245,22 @@ export default function Dashboard() {
         {/* get weather data button */}
         <button
           type="submit"
-          disabled={isLoading}
-          className={`rounded-md bg-sky-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400 w-min-[100px] w-full sm:w-auto disabled:bg-slate-400`}
+          disabled={isLoading || isCurrentLocationLoading}
+          className={`rounded-md bg-sky-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400 w-min-[100px] w-full sm:w-24 h-9 disabled:bg-slate-400`}
         >
-          {isLoading ? "Fetching..." : "Fetch Data"}
+          {isLoading ? <Loader size={4} /> : "Fetch Data"}
         </button>
         <button
           type="button"
           onClick={getUsersLocation}
-          className={`rounded-md bg-green-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600 w-min-[100px] w-full sm:w-auto disabled:bg-slate-400`}
+          disabled={isCurrentLocationLoading}
+          className={`rounded-md bg-green-400 h-9 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600 w-min-[100px] w-full sm:w-44 disabled:bg-slate-400`}
         >
-          Get your coordinates ?
+          {isCurrentLocationLoading ? (
+            <Loader size={8} />
+          ) : (
+            "Get your coordinates"
+          )}
         </button>
       </form>
 

@@ -10,10 +10,8 @@ import {
   Tooltip,
   Legend,
   Title,
-  Interaction,
-  plugins,
 } from "chart.js";
-import { LoaderIcon } from "react-hot-toast";
+import Loader from "../loader/Loader";
 
 // Register the noData plugin
 ChartJS.register({
@@ -151,7 +149,7 @@ const LineChart = ({ data, loading }) => {
         },
       },
       title: {
-        display: true,
+        display: false,
         text: "Temperature Graph",
         position: "top",
         align: "start",
@@ -169,7 +167,7 @@ const LineChart = ({ data, loading }) => {
             weight: "bold",
             lineHeight: 1.2,
           },
-          padding: { top: 10, left: 0, right: 0, bottom: 0 },
+          padding: { top: 10, left: 0, right: 0, bottom: 20 },
         },
         ticks: {
           color: "#666",
@@ -194,9 +192,20 @@ const LineChart = ({ data, loading }) => {
   };
   return (
     <div
-      className={`w-full flex justify-center items-center h-96 border-2 border-gray-200 p-2 rounded-lg bg-white `}
+      className={`w-full flex flex-col max-h-96 border-2 border-gray-200 p-2 rounded-lg bg-white `}
     >
-      <Line options={mainOptions} data={mainData} />
+      <h2 className=" font-bold text-xl text-gray-500 text-start w-full ">
+        Temperature Graph
+      </h2>
+      {loading ? (
+        <div
+          className={`w-full flex flex-col h-96 justify-center items-center`}
+        >
+          <Loader />
+        </div>
+      ) : (
+        <Line options={mainOptions} data={mainData} />
+      )}
     </div>
   );
 };
