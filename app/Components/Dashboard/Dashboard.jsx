@@ -134,11 +134,12 @@ export default function Dashboard() {
       toast.error(
         res.reason || "Something went wrong while fetching the weather data"
       );
+      return;
     }
     setWeatherData(res?.daily);
     const tableData = formatDataForTable(res?.daily);
     const filteredData = handlePerPageData(tableData);
-    const pages = Math.ceil(tableData.length / Number(limitPerPage));
+    const pages = Math.ceil(tableData?.length / Number(limitPerPage));
     const totalPages = setNumberOfPages(pages);
     setPages(totalPages);
     setFilteredTableData(filteredData);
