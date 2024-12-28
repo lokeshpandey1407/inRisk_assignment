@@ -114,8 +114,8 @@ export default function Dashboard() {
     if (error.endDate || error.latitude || error.longitude || error.startDate)
       return;
     const formData = new FormData(e.target);
-    const latitude = formData.get("latitude");
-    const longitude = formData.get("longitude");
+    const latitude = defaultLatitude;
+    const longitude = defaultLongitude;
     const startDate = formData.get("startDate");
     const endDate = formData.get("endDate");
 
@@ -184,7 +184,8 @@ export default function Dashboard() {
             type="text"
             id="latitude"
             name="latitude"
-            defaultValue={defaultLatitude}
+            value={defaultLatitude}
+            onChange={(e) => setDefaultLatitude(e.target.value)}
             placeholder="Enter latitude"
             required
           />
@@ -200,7 +201,8 @@ export default function Dashboard() {
             type="text"
             id="longitude"
             name="longitude"
-            defaultValue={defaultLongitude}
+            value={defaultLongitude}
+            onChange={(e) => setDefaultLongitude(e.target.value)}
             placeholder="Enter longitude"
             required
           />
