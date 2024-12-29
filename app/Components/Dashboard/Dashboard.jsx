@@ -137,6 +137,7 @@ export default function Dashboard() {
       return;
     }
     setWeatherData(res?.daily);
+    setCurrentPage(1);
     const tableData = formatDataForTable(res?.daily);
     const filteredData = handlePerPageData(tableData);
     const pages = Math.ceil(tableData?.length / Number(limitPerPage));
