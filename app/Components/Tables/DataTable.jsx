@@ -2,7 +2,6 @@ import React from "react";
 import Loader from "../loader/Loader";
 
 const DataTable = ({
-  data,
   filteredData,
   loading,
   limitPerPage,
@@ -11,6 +10,7 @@ const DataTable = ({
   currentPage,
   setCurrentPage,
 }) => {
+
   function handleFirst() {
     if (currentPage !== 1) {
       setCurrentPage(1);

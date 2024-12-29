@@ -28,6 +28,7 @@ export default function Dashboard() {
   const [defaultLatitude, setDefaultLatitude] = useState("");
   const [defaultLongitude, setDefaultLongitude] = useState("");
 
+  //handler function to generat table data from api response
   function formatDataForTable(data) {
     if (!data) return;
     let tableArray = [];
@@ -44,6 +45,7 @@ export default function Dashboard() {
     return tableArray;
   }
 
+  //handler function to get user coordinates
   async function getUsersLocation() {
     setCurrentLocationLoading(true);
     navigator.geolocation.getCurrentPosition(
@@ -67,6 +69,7 @@ export default function Dashboard() {
     return filteredTableData;
   }
 
+  // function to handle errors
   function handleError(latitude, longitude, startDate, endDate) {
     let hasError = false;
     const newError = {
@@ -109,6 +112,7 @@ export default function Dashboard() {
     return hasError;
   }
 
+  // function to get data from API
   async function handleGetData(e) {
     e.preventDefault();
     if (error.endDate || error.latitude || error.longitude || error.startDate)
@@ -147,6 +151,7 @@ export default function Dashboard() {
     setIsLoading(false);
   }
 
+  // functio to convert pages into array of pages
   function setNumberOfPages(pages) {
     const numOfPages = [];
     for (let i = 1; i <= pages; i++) {
@@ -270,7 +275,6 @@ export default function Dashboard() {
 
       <LineChart data={weatherData} loading={isLoading} />
       <DataTable
-        data={weatherTableData}
         filteredData={filteredTableData}
         loading={isLoading}
         limitPerPage={limitPerPage}
